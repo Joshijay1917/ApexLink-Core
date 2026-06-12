@@ -21,6 +21,10 @@ export const getChatMessages = asyncHandler(async (req: Request, res: Response) 
   // @ts-ignore
   const userId = req.user.id;
 
+  if(!chatId || !userId) {
+    throw new ApiError(400, "Required fields not found!")
+  }
+
   const chat = await Chat.findOne({
     chatId,
     $or: [{ senderId: userId }, { receiverId: userId }]
@@ -30,7 +34,7 @@ export const getChatMessages = asyncHandler(async (req: Request, res: Response) 
     throw new ApiError(403, 'Not authorized to view this chat');
   }
 
-  const messages = await Message.find({ chatId }).sort({ timestamp: 1 })
+  const messages = await Message.find({ chatId }).sort({ createdAt: 1 })
 
   res.status(200).json(new ApiResponse(200, messages, 'Messages fetched successfully'));
 });

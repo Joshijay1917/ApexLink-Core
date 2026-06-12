@@ -1,4 +1,4 @@
-import express, { type Express } from "express"
+import express, { Request, Response, type Express } from "express"
 import cors from 'cors';
 import helmet from 'helmet';
 import { apiLimiter } from './middlewares/rateLimiter';
@@ -20,7 +20,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/payment', paymentRoutes);
 
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.send('ApexLink API is running...');
 });
 
