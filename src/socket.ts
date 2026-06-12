@@ -1,13 +1,4 @@
-import { createServer } from 'http';
 import { Server } from 'socket.io';
-
-const socketServer = createServer();
-export const io = new Server(socketServer, {
-  cors: {
-    origin: '*', // To be restricted in production
-    methods: ['GET', 'POST']
-  }
-});
 
 import { translateText } from './services/translator';
 import Message from './models/Message';
@@ -19,6 +10,8 @@ import { ApiError } from './utils/ApiError';
 const roomLanguages: Record<string, Set<string>> = {};
 const roomParticipants: Record<string, Set<string>> = {};
 
+export default function registerSocket(io: Server) {
+  
 io.on('connection', (socket) => {
   console.log(`Socket connected: ${socket.id}`);
   
@@ -110,6 +103,5 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log(`Socket disconnected: ${socket.id}`);
   });
-});
-
-export default socketServer
+})
+}

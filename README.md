@@ -31,7 +31,6 @@ Create a `.env` file in the root of the `Backend/` directory with the following 
 ```env
 # Server Configuration
 PORT=5000
-SOCKET_PORT=5001
 
 # Database Configuration
 MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/apexlink
@@ -88,7 +87,7 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 
 ## WebSocket Events
 
-The application connects to `SOCKET_PORT` (default 5001) for real-time synchronization.
+The application connects to `PORT` (default 5000) for real-time synchronization.
 
 *   **`join_room`**: Triggered when a user enters a workspace. Tracks the user's `preferredLang` in the room memory state.
 *   **`set_language`**: Invoked by Guest users to change their desired translation output language dynamically.
