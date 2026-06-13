@@ -3,7 +3,7 @@ import { connectDB } from './config/db';
 import app from './app';
 import http from "http"
 import { Server } from 'socket.io';
-import registerSocket from './socket';
+import registerSocket from './socket/index';
 
 dotenv.config();
 

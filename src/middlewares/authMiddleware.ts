@@ -25,7 +25,6 @@ export const authMiddleware = async (req: AuthRequest, res: Response, next: Next
     req.user = decoded;
     next();
   } catch (error: any) {
-    console.log(error?.message === "jwt expired")
     if(error?.message === "jwt expired") {
       throw new ApiError(401, "Unauthorized access!")
     }
