@@ -5,6 +5,7 @@ import { apiLimiter } from './middlewares/rateLimiter';
 
 const app: Express = express();
 
+app.set('trust proxy', 1);
 // Security Middlewares
 app.use(helmet());
 app.use(cors());
