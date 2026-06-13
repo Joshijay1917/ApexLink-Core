@@ -62,7 +62,7 @@ io.on('connection', (socket) => {
           
           let chatExists = await Chat.findOne({ chatId: room });
 
-          if (!chatExists && roomParticipants[room] && roomParticipants[room].size >= 2) {
+          if (!chatExists && roomParticipants[room]) {
              const parts = Array.from(roomParticipants[room]);
              const otherId = parts.find(id => id !== decoded.id) || parts[0];
              chatExists = await Chat.create({
@@ -70,19 +70,25 @@ io.on('connection', (socket) => {
                 senderId: new mongoose.Types.ObjectId(decoded.id),
                 receiverId: new mongoose.Types.ObjectId(otherId)
              });
+          } else if(chatExists && roomParticipants[room] && roomParticipants[room].size >= 2) {
+              const parts = Array.from(roomParticipants[room]);
+              const otherId = parts.find(id => id !== decoded.id) || parts[0];
+              chatExists.receiverId = new mongoose.Types.ObjectId(otherId);
+              await chatExists.save();
           }
 
           // Only save message if the Chat workspace exists
-          if (chatExists) {
+          // if (chatExists) {
              await Message.create({
                 chatId: room,
+                senderName: decoded?.name ? decoded.name : room,
                 originalMsg: text,
                 translations,
                 originalLang,
                 translatedLang: 'multiple',
                 senderId: new mongoose.Types.ObjectId(decoded.id)
              });
-          }
+          // }
         }
       } catch (err: any) {
         console.error('Socket auth failed', err);

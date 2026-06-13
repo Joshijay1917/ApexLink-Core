@@ -34,7 +34,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
   const isMatch = await bcrypt.compare(password, user.passwordHash);
   if (!isMatch) throw new ApiError(401, 'Invalid credentials');
 
-  const payload = { id: user._id, email: user.email };
+  const payload = { id: user._id, email: user.email, name: user.name };
   const accessToken = await generateAccessToken(payload);
   const refreshToken = await generateRefreshToken(payload);
 
@@ -56,7 +56,7 @@ export const refresh = asyncHandler(async (req: Request, res: Response) => {
     throw new ApiError(401, 'Invalid refresh token');
   }
 
-  const payload = { id: decoded.id, email: decoded.email };
+  const payload = { id: decoded.id, email: decoded.email, name: decoded.name };
   const newAccessToken = await generateAccessToken(payload);
 
   res.status(200).json(new ApiResponse(200, { accessToken: newAccessToken }, 'Token refreshed'));
