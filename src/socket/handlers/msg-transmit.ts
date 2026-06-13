@@ -7,7 +7,6 @@ import mongoose from "mongoose";
 
 export default function(io: Server, socket: Socket) {
     socket.on("msg_transmit", async ({ room, text, originalLang, token }) => {
-        console.log(`${socket.id} emit message to room ${room}`)
         const roomId = socket.data.roomId;
         if(!roomId) return;
 
@@ -23,6 +22,7 @@ export default function(io: Server, socket: Socket) {
 
         try {
             const languages = rooms.languages(roomId)
+            console.log("Room languages:", languages)
             const translations: Record<string, string> = {};
     
             for(const lang of languages) {

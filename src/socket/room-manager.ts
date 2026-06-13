@@ -8,6 +8,7 @@ class RoomManager {
     private rooms = new Map<string, Map<string, Participant>>();
 
     join(roomId: string, participant: Participant) {
+        console.log("Join:", this.rooms)
         if(!this.rooms.has(roomId)) {
             this.rooms.set(roomId, new Map());
         }
@@ -16,6 +17,7 @@ class RoomManager {
     }
 
     leave(roomId: string, socketId: string) {
+        console.log("leave:", this.rooms)
         const room = this.rooms.get(roomId);
 
         if(!room) return;
@@ -28,6 +30,7 @@ class RoomManager {
     }
 
     setLanguage(roomId: string, socketId: string, language: string) {
+        console.log("Setlanguage:", this.rooms)
         const room = this.rooms.get(roomId);
         if(!room) return;
 
@@ -39,6 +42,7 @@ class RoomManager {
 
     languages(roomId: string) {
         const room = this.rooms.get(roomId);
+        console.log("Languages:", this.rooms)
         const setOfLanguages = new Set<string>();
         const participants = Array.from(room?.values() || [])
 

@@ -5,7 +5,6 @@ import Chat from '../../models/Chat';
 
 export default function(io: Server, socket: Socket) {
     socket.on("join_room", async ({ room, lang, token }) => {
-        console.log(`${socket.id} joined room ${room}`)
         socket.join(room)
         socket.data.roomId = room;
         let userId = null;
