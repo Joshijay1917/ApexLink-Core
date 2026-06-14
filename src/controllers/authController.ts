@@ -84,7 +84,7 @@ export const whoami = asyncHandler(async (req: Request, res: Response) => {
   }
 
   res.status(200).json(new ApiResponse(200, {
-    ...user.toObject(),
+    user: { id: user._id, name: user.name, email: user.email, preferredLang: user.preferredLang },
     trialExpired,
     hasActiveSub,
     statusPending
