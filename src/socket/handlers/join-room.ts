@@ -19,13 +19,7 @@ export default function(io: Server, socket: Socket) {
         if(userId) {
             const chatExists = await Chat.findOne({ chatId: room })
 
-            if(!chatExists) {
-                await Chat.create({
-                    chatId: room,
-                    senderId: userId,
-                    receiverId: userId
-                })
-            } else if(chatExists && chatExists.senderId.toString() !== userId) {
+            if(chatExists && chatExists.senderId.toString() !== userId) {
                 chatExists.receiverId = userId;
                 await chatExists.save();
             }
