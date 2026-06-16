@@ -3,6 +3,7 @@ import joinRoom from "./handlers/join-room";
 import msgTransmit from "./handlers/msg-transmit";
 import rooms from "./room-manager"
 import setLanguage from "./handlers/set-language";
+import typing from "./handlers/typing";
 
 export default function registerSocket(io: Server) {
     io.on("connection", (socket) => {
@@ -13,6 +14,8 @@ export default function registerSocket(io: Server) {
         msgTransmit(io, socket);
 
         setLanguage(io, socket);
+
+        typing(io, socket);
 
         socket.on("leave_room", ({ room }) => {
             if(!room) return;
